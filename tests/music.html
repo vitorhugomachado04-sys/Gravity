@@ -1,0 +1,8 @@
+<!doctype html><html lang="pt-BR"><meta charset="utf-8"><title>Gravity — trilhas</title><style>body{background:#6a659e;color:white;font:16px monospace}button{padding:16px;background:#6a659e;color:white;border:1px solid white;margin:8px}</style><h1>Trilhas de Gravity</h1><nav></nav><button id="stop">Parar</button><p id="status">Escolha um planeta para ouvir.</p><script type="module">
+import {AudioSystem} from '../js/audio.js?v=2.3.2';import {SCORES} from '../js/score.js?v=2.3.2';
+const audio=new AudioSystem();audio.music=true;let active=false;
+for(const [id,score] of Object.entries(SCORES)){const b=document.createElement('button');b.textContent=id;b.onclick=()=>{audio.unlock();audio.setStage(id);active=true;document.querySelector('#status').textContent=score.title;};document.querySelector('nav').append(b);}
+document.querySelector('#stop').onclick=()=>{active=false;audio.stop();};
+function loop(){if(active){audio.update(1/60);document.querySelector('#status').textContent=`${SCORES[audio.stage].title} / ${audio.context?.state} / passo ${audio.step} / vozes ${audio.musicVoices.size}`;}requestAnimationFrame(loop);}loop();
+window.addEventListener('pagehide',()=>audio.stop());document.addEventListener('visibilitychange',()=>{if(document.hidden){active=false;audio.stop();}});
+</script></html>

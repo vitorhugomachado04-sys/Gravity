@@ -1,10 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { expeditionIndex, CheatSequence } from "../js/cheats.js";
-import { Campaign } from "../js/campaign.js";
-import { foregroundFace, drawBridgeOcclusion } from "../js/planets.js";
-import { project } from "../js/projection.js";
-import { C } from "../js/config.js";
+import { expeditionIndex, CheatSequence } from "../js/cheats.js?v=2.3.2";
+import { Campaign } from "../js/campaign.js?v=2.3.2";
+import { foregroundFace, drawBridgeOcclusion } from "../js/planets.js?v=2.3.2";
+import { project } from "../js/projection.js?v=2.3.2";
+import { C } from "../js/config.js?v=2.3.2";
 test("codes accept all five stages, mixed case and reject invalid entries", () => {
   for (let n = 1; n <= 5; n++)
     assert.equal(expeditionIndex(` Expedition${n} `), n - 1);

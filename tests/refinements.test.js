@@ -1,10 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { World } from "../js/world.js";
-import { ENEMIES, sweptHit } from "../js/combat.js";
-import { MOON } from "../js/config.js";
-import { createScenery, footprintsOverlap, craterRim } from "../js/scenery.js";
-import { clipLine, surfaceAt } from "../js/projection.js";
+import { World } from "../js/world.js?v=2.3.2";
+import { ENEMIES, sweptHit } from "../js/combat.js?v=2.3.2";
+import { MOON } from "../js/config.js?v=2.3.2";
+import { createScenery, footprintsOverlap, craterRim } from "../js/scenery.js?v=2.3.2";
+import { clipLine, surfaceAt } from "../js/projection.js?v=2.3.2";
 const silent = { fx() {} },
   idle = { x: 0, y: 0, fire: false };
 function isolated() {

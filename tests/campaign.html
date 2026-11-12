@@ -13,7 +13,7 @@
     />
     <title>GRAVITY · Panorama Arcade</title>
     <base href="../" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css?v=2.3.2" />
   </head>
   <body>
     <main id="cabinet" aria-label="Gravity — Panorama Arcade">
@@ -45,21 +45,8 @@
           <button id="sound" aria-pressed="true">SOM ON</button
           ><button id="music" aria-pressed="false">MÚSICA OFF</button>
         </div>
-        <form class="cheat-form">
-          <label
-            >CÓDIGO
-            <input
-              aria-label="Código expedition"
-              placeholder="expedition1–5"
-              autocomplete="off"
-              autocapitalize="none"
-              spellcheck="false"
-              maxlength="24" /></label
-          ><button type="submit">IR →</button
-          ><output aria-live="polite"></output>
-        </form>
         <p id="best">BEST 000000</p>
-        <footer>A PANORAMA ARCADE ORIGINAL</footer>
+        <footer>A PANORAMA ARCADE ORIGINAL · v2.3.2</footer>
       </section>
       <section id="dialog" class="overlay" hidden aria-live="polite">
         <p class="eyebrow" id="dialogTag">FLIGHT INTERRUPTED</p>
@@ -68,19 +55,6 @@
         <button id="next" class="primary" hidden>PRÓXIMO PLANETA →</button>
         <button id="resume" class="primary">CONTINUAR →</button
         ><button id="restart">REINICIAR</button><button id="home">MENU</button>
-        <form class="cheat-form">
-          <label
-            >CÓDIGO
-            <input
-              aria-label="Código expedition"
-              placeholder="expedition1–5"
-              autocomplete="off"
-              autocapitalize="none"
-              spellcheck="false"
-              maxlength="24" /></label
-          ><button type="submit">IR →</button
-          ><output aria-live="polite"></output>
-        </form>
       </section>
       <div id="controls" class="cockpit" hidden aria-label="Cockpit da nave">
         <div class="panel-rail" aria-hidden="true">
@@ -90,7 +64,7 @@
         <div
           id="stick"
           role="group"
-          aria-label="Direcional de movimento com diagonais"
+          aria-label="Controle analógico: toque e arraste para mover"
           data-x="0"
           data-y="0"
         >
@@ -111,8 +85,8 @@
       </div>
     </main>
     <script type="module">
-      import { mount } from "./js/app.js";
-      import { STAGES } from "./js/stages.js";
+      import { mount } from "./js/app.js?v=2.3.2";
+      import { STAGES } from "./js/stages.js?v=2.3.2";
       mount({
         storagePrefix: "gravity.test",
         stages: STAGES.map((s) => ({ ...s, length: 20 })),

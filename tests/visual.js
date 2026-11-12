@@ -1,7 +1,7 @@
-import { cloudRayPoint } from "../js/atmosphere.js";
-import { STAGES } from "../js/stages.js";
-import { World } from "../js/world.js";
-import { Renderer } from "../js/render.js";
+import { cloudRayPoint } from "../js/atmosphere.js?v=2.3.2";
+import { STAGES } from "../js/stages.js?v=2.3.2";
+import { World } from "../js/world.js?v=2.3.2";
+import { Renderer } from "../js/render.js?v=2.3.2";
 let world = new World({ fx() {} });
 const canvas = document.querySelector("canvas"),
   renderer = new Renderer(canvas),

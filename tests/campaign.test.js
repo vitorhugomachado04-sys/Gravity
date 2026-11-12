@@ -1,10 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { Campaign } from "../js/campaign.js";
-import { STAGES } from "../js/stages.js";
-import { createScenery } from "../js/scenery.js";
-import { project } from "../js/projection.js";
-import { projectedFace } from "../js/planets.js";
+import { Campaign } from "../js/campaign.js?v=2.3.2";
+import { STAGES } from "../js/stages.js?v=2.3.2";
+import { createScenery } from "../js/scenery.js?v=2.3.2";
+import { project } from "../js/projection.js?v=2.3.2";
+import { projectedFace } from "../js/planets.js?v=2.3.2";
 const silent = { fx() {} },
   idle = { x: 0, y: 0, fire: false };
 test("all five full-length stages complete, transition in order and keep equipment", () => {

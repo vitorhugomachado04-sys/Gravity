@@ -1,8 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { World } from "../js/world.js";
-import { project, surfaceAt } from "../js/projection.js";
-import { C } from "../js/config.js";
+import { World } from "../js/world.js?v=2.3.2";
+import { project, surfaceAt } from "../js/projection.js?v=2.3.2";
+import { C } from "../js/config.js?v=2.3.2";
 const audio = { fx() {} };
 const idle = { x: 0, y: 0, fire: false };
 const empty = () => {

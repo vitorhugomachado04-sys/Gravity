@@ -1,8 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { STAGES } from "../js/stages.js";
-import { createScenery, footprintsOverlap } from "../js/scenery.js";
-import { urbanMaterial, structureHit, structureParts } from "../js/urban.js";
+import { STAGES } from "../js/stages.js?v=2.3.2";
+import { createScenery, footprintsOverlap } from "../js/scenery.js?v=2.3.2";
+import { urbanMaterial, structureHit, structureParts } from "../js/urban.js?v=2.3.2";
 const pose = (s, h, x = 0) => ({ x, s, h });
 test("Moon: narrower distribution, fewer craters and retained pyramids", () => {
   const items = createScenery(STAGES[0]),
@@ -52,16 +52,16 @@ test("Mars: no lunar pyramids; occasional small craters avoid all formations", (
       if (e !== other) assert.equal(footprintsOverlap(e, other, 6), false);
 });
 
-import { World } from "../js/world.js";
-import { cloudRayPoint, cloudPose, cloudOccludes } from "../js/atmosphere.js";
+import { World } from "../js/world.js?v=2.3.2";
+import { cloudRayPoint, cloudPose, cloudOccludes } from "../js/atmosphere.js?v=2.3.2";
 import {
   formation,
   hostileVolley,
   waveSpacing,
   COMBAT_LIMITS,
-} from "../js/encounters.js";
-import { ringPoint, ringSamples, RING_RADII } from "../js/rings.js";
-import { C } from "../js/config.js";
+} from "../js/encounters.js?v=2.3.2";
+import { ringPoint, ringSamples, RING_RADII } from "../js/rings.js?v=2.3.2";
+import { C } from "../js/config.js?v=2.3.2";
 test("Neptune fog hides ship only where camera ray crosses a higher cloud", () => {
   const player = { x: 0, h: 8 },
     hit = cloudRayPoint(player, 100, 25),

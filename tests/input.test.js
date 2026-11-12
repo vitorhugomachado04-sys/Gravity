@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { Input } from "../js/input.js";
+import { Input } from "../js/input.js?v=2.3.2";
 class Element {
   constructor() {
     this.handlers = {};
@@ -41,6 +41,12 @@ test("independent pointer IDs permit joystick + fire + missile, cancellation rel
   elements.stick.emit("pointerdown", {
     pointerId: 1,
     clientX: 86,
+    clientY: 50,
+  });
+  assert.equal(input.read().x, 0); // Touching anywhere starts neutral.
+  elements.stick.emit("pointermove", {
+    pointerId: 1,
+    clientX: 130,
     clientY: 50,
   });
   elements.fire.emit("pointerdown", { pointerId: 2 });
@@ -91,7 +97,7 @@ test("empty missile control rejects touches; Space still fires after touching co
   assert.equal(input.read().fire, false);
 });
 
-test("D-pad supports diagonals, slides between directions, neutral center and release feedback", () => {
+test("analog drag is proportional, diagonal, captured outside and resets on cancellation", () => {
   const elements = Object.fromEntries(
     ["stick", "knob", "fire", "missile"].map((id) => [id, new Element()]),
   );
@@ -109,27 +115,42 @@ test("D-pad supports diagonals, slides between directions, neutral center and re
     () => {},
   );
   input.enabled = true;
-  elements.stick.emit("pointerdown", {
-    pointerId: 1,
-    clientX: 85,
-    clientY: 15,
-  });
-  assert.deepEqual(input.axis, { x: 1, y: -1 });
+  const touch = (event, x, y, id = 1) =>
+    elements.stick.emit(event, { pointerId: id, clientX: x, clientY: y });
+  touch("pointerdown", 70, 60);
+  assert.deepEqual(input.axis, { x: 0, y: 0 });
+  touch("pointermove", 71, 61);
+  assert.equal(Math.hypot(input.axis.x, input.axis.y), 0);
+  touch("pointermove", 80, 60);
+  const slow = input.axis.x;
+  assert.ok(slow > 0 && slow < 0.5);
+  touch("pointermove", 90, 60);
+  assert.ok(input.axis.x > slow && input.axis.x < 1);
+  touch("pointerdown", 10, 10, 2);
+  touch("pointermove", 200, 200, 2);
+  assert.equal(input.stickId, 1);
+  assert.equal(input.axis.y, 0);
+  touch("pointermove", 108, 22);
+  assert.ok(Math.abs(Math.hypot(input.axis.x, input.axis.y) - 1) < 1e-9);
+  assert.ok(input.axis.x > 0 && input.axis.y < 0);
   assert.equal(attrs["data-x"], "1");
   assert.equal(attrs["data-y"], "-1");
-  elements.stick.emit("pointermove", {
-    pointerId: 1,
-    clientX: 15,
-    clientY: 85,
-  });
-  assert.deepEqual(input.axis, { x: -1, y: 1 });
-  elements.stick.emit("pointermove", {
-    pointerId: 1,
-    clientX: 50,
-    clientY: 50,
-  });
+  touch("pointermove", -120, 60);
+  assert.equal(input.axis.x, -1);
+  touch("pointermove", 70, 60);
   assert.deepEqual(input.axis, { x: 0, y: 0 });
-  elements.stick.emit("pointercancel", { pointerId: 1 });
-  assert.equal(attrs["data-x"], "0");
+  touch("pointermove", 90, 60);
+  touch("pointercancel", 90, 60);
+  assert.deepEqual(input.axis, { x: 0, y: 0 });
+  assert.equal(input.stickOrigin, null);
+  touch("pointerdown", 20, 20);
+  touch("pointermove", 20, 50);
+  assert.ok(input.axis.y > 0);
+  input.reset();
+  touch("pointermove", 150, 150);
+  assert.deepEqual(input.axis, { x: 0, y: 0 });
+  touch("pointerdown", 50, 50);
+  touch("pointermove", 50, 0);
+  touch("pointerup", 50, 0);
   assert.equal(attrs["data-y"], "0");
 });
