@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>Gravity — verificação visual</title
+  ><style>
+    body {
+      margin: 12px;
+      background: #6a659e;
+      color: white;
+      font: 14px monospace;
+    }
+    button,
+    select {
+      background: #6a659e;
+      color: white;
+      border: 1px solid white;
+      padding: 10px;
+      margin: 3px;
+      min-height: 44px;
+    }
+    canvas {
+      image-rendering: pixelated;
+      width: min(90vw, 420px);
+      height: auto;
+      display: block;
+    }
+    #report {
+      white-space: pre-wrap;
+    }
+    nav {
+      max-width: 550px;
+    }
+  </style>
+  <nav>
+    <button id="fog">Nuvem sobre a nave</button
+    ><button id="bridge">Passagem inferior</button
+    ><button id="lowgate">Passagem superior</button
+    ><button id="validate">Validar 5 cenários</button>
+    <button id="earth">Earth 3027</button><button id="mars">Mars</button
+    ><button id="neptune">Neptune</button><button id="saturn">Saturn</button
+    ><button id="moon">Crateras / Moon</button
+    ><button id="items">Power-ups</button
+    ><button id="impact">Impacto satellite</button
+    ><button id="step">Avançar 1 segundo</button
+    ><button id="palette">Verificar paleta</button>
+  </nav>
+  <p id="report">Verificação visual controlada</p>
+  <canvas id="game" width="240" height="400"></canvas>
+  <script type="module" src="visual.js"></script>
+</html>

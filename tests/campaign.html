@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#6A659E" />
+    <meta
+      name="description"
+      content="Gravity — um arcade espacial original da Panorama. Explore cinco planetas."
+    />
+    <title>GRAVITY · Panorama Arcade</title>
+    <base href="../" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main id="cabinet" aria-label="Gravity — Panorama Arcade">
+      <canvas
+        id="game"
+        width="240"
+        height="400"
+        aria-label="Jogo espacial Gravity"
+      ></canvas>
+      <header id="hud" hidden>
+        <button id="pause" aria-label="Pausar">Ⅱ</button>
+      </header>
+      <section id="menu" class="overlay">
+        <div class="eyebrow">PANORAMA ARCADE / 002</div>
+        <h1>GRAVITY</h1>
+        <p class="tagline">A LITTLE SHIP.<br />FIVE STRANGE WORLDS.</p>
+        <div class="mission">
+          <span>01</span>
+          <div>
+            MOON → EARTH → MARS<small>NEPTUNE → SATURN / 5 STAGES</small>
+          </div>
+        </div>
+        <button id="start" class="primary">START <span>→</span></button>
+        <p class="hint">
+          WASD / SETAS + ESPAÇO · SHIFT: MÍSSIL<br />NO CELULAR, USE OS
+          CONTROLES NA TELA
+        </p>
+        <div class="settings">
+          <button id="sound" aria-pressed="true">SOM ON</button
+          ><button id="music" aria-pressed="false">MÚSICA OFF</button>
+        </div>
+        <form class="cheat-form">
+          <label
+            >CÓDIGO
+            <input
+              aria-label="Código expedition"
+              placeholder="expedition1–5"
+              autocomplete="off"
+              autocapitalize="none"
+              spellcheck="false"
+              maxlength="24" /></label
+          ><button type="submit">IR →</button
+          ><output aria-live="polite"></output>
+        </form>
+        <p id="best">BEST 000000</p>
+        <footer>A PANORAMA ARCADE ORIGINAL</footer>
+      </section>
+      <section id="dialog" class="overlay" hidden aria-live="polite">
+        <p class="eyebrow" id="dialogTag">FLIGHT INTERRUPTED</p>
+        <h2 id="dialogTitle">PAUSED</h2>
+        <p id="dialogText"></p>
+        <button id="next" class="primary" hidden>PRÓXIMO PLANETA →</button>
+        <button id="resume" class="primary">CONTINUAR →</button
+        ><button id="restart">REINICIAR</button><button id="home">MENU</button>
+        <form class="cheat-form">
+          <label
+            >CÓDIGO
+            <input
+              aria-label="Código expedition"
+              placeholder="expedition1–5"
+              autocomplete="off"
+              autocapitalize="none"
+              spellcheck="false"
+              maxlength="24" /></label
+          ><button type="submit">IR →</button
+          ><output aria-live="polite"></output>
+        </form>
+      </section>
+      <div id="controls" class="cockpit" hidden aria-label="Cockpit da nave">
+        <div class="panel-rail" aria-hidden="true">
+          <span>PNR / ARCADE</span><span id="weaponIndicator">SINGLE</span
+          ><b>▪ ▪ ▪</b>
+        </div>
+        <div
+          id="stick"
+          role="group"
+          aria-label="Direcional de movimento com diagonais"
+          data-x="0"
+          data-y="0"
+        >
+          <span class="pad-up" aria-hidden="true">▲</span
+          ><span class="pad-left" aria-hidden="true">◀</span
+          ><span id="knob" aria-hidden="true"></span
+          ><span class="pad-right" aria-hidden="true">▶</span
+          ><span class="pad-down" aria-hidden="true">▼</span>
+        </div>
+        <button id="missile" aria-label="Lançar míssil" aria-disabled="false">
+          <span class="missile-symbol" aria-hidden="true"></span
+          ><span id="ammo" aria-hidden="true">03</span>
+        </button>
+        <button id="fire" aria-label="Disparar">
+          <span class="fire-ring" aria-hidden="true"></span
+          ><span class="fire-symbol" aria-hidden="true"></span>
+        </button>
+      </div>
+    </main>
+    <script type="module">
+      import { mount } from "./js/app.js";
+      import { STAGES } from "./js/stages.js";
+      mount({
+        storagePrefix: "gravity.test",
+        stages: STAGES.map((s) => ({ ...s, length: 20 })),
+      });
+    </script>
+  </body>
+</html>
