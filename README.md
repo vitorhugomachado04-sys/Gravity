@@ -1,4 +1,4 @@
-# GRAVITY 2.1.1 — A Panorama Arcade Original
+# GRAVITY 2.3.2 — versão consolidada
 
 Refinamento da engine original: D-pad clássico, malha urbana esférica, passagens por altura, Marte sem pirâmides, nuvens com oclusão espacial, anéis orbitais e combate mais intenso nos dois últimos planetas. Mantém Canvas 2D, projeção esférica, resolução lógica de 240 × 400, roxo `#6A659E` e branco `#FFFFFF`. Sem bibliotecas de execução, backend, instalação ou build.
 
@@ -27,12 +27,12 @@ A aba carregada funciona sem conexão. Não há service worker: reabrir/recarreg
 - **WASD / setas:** movimento horizontal e altitude limitada.
 - **Espaço:** disparo contínuo; **Shift:** um míssil; **Esc:** pausa/retoma.
 - **Enter:** inicia/avança nas telas correspondentes.
-- **D-pad à esquerda:** quatro direções, diagonais e feedback por direção; centro neutro e liberação ao soltar/cancelar.
+- **D-pad à esquerda:** visual retrô com resposta analógica. Encoste em qualquer ponto da área e arraste sem levantar; o ponto inicial vira o centro. Arraste curto move devagar, longo atinge velocidade máxima. Soltar ou cancelar neutraliza o controle.
 - **Retícula à direita:** disparo principal, mantendo pressionado.
 - **Símbolo de míssil ao centro-direita:** arma especial. Visor indica munição; traço e borda interrompida indicam zero.
 - D-pad, disparo e míssil possuem ponteiros independentes. Área ocupada continua restrita à faixa inferior original.
 
-Obstáculos perigosos têm um **×**. Formações decorativas não causam dano. Na Terra, colisões usam volumes com altura: desça para passar sob pontes (DESCEND / BELOW) e suba para passar sobre estruturas baixas (CLIMB / ABOVE). Tabuleiro e suportes continuam sólidos. Nos demais mundos, desvie lateralmente dos obstáculos físicos. Tiros levam em conta posição lateral, profundidade e altitude.
+Os marcadores em X e os traços decorativos horizontais foram removidos para limpar o cenário. Formações decorativas não causam dano. Na Terra, colisões usam volumes com altura: desça para passar sob pontes (DESCEND / BELOW) e suba para passar sobre estruturas baixas (CLIMB / ABOVE). Tabuleiro e suportes continuam sólidos. Nos demais mundos, desvie lateralmente dos obstáculos físicos. Tiros levam em conta posição lateral, profundidade e altitude.
 
 ## Campanha
 
@@ -161,7 +161,7 @@ O áudio continua sintetizado. `AudioSystem.setTrack(url)` aceita uma futura tri
 
 ## Próximos ajustes recomendados
 
-Priorizar playtests físicos e balanceamento da campanha completa. A arquitetura está funcional, mas o ajuste de densidade de edifícios/nuvens, hitboxes percebidas e dificuldade acumulada deve ser orientado por jogadores. A trilha ainda é provisória. Não foram adicionados narrativa, multiplayer, câmera alternativa, suporte específico a gamepad ou serviços online.
+Priorizar playtests físicos e balanceamento da campanha completa. A arquitetura está funcional, mas o ajuste de densidade de edifícios/nuvens, hitboxes percebidas e dificuldade acumulada deve ser orientado por jogadores. A trilha agora possui cinco composições sintetizadas originais. Não foram adicionados narrativa, multiplayer, câmera alternativa, suporte específico a gamepad ou serviços online.
 
 Licença do código e uso da marca continuam pendentes da Panorama; consulte `NOTICE.md`.
 
@@ -171,20 +171,33 @@ Arquivos alterados na 2.1: `index.html`, `style.css`, `package.json`, este READM
 
 A ponte agora sobrepõe a nave somente nas faces que estão à frente dela na câmera. O recorte usa a profundidade projetada da geometria original; não altera a colisão nem preenche o vão. Inspeção visual confirmou ocultação durante a passagem e reaparecimento depois, com três vidas preservadas.
 
-Digite no teclado, sem Enter, ou use o campo **CÓDIGO** no menu/tela de pausa e toque em **IR**:
-
-| Código | Destino |
-|---|---|
-| expedition1 | Moon |
-| expedition2 | Earth 3027 |
-| expedition3 | Mars |
-| expedition4 | Neptune |
-| expedition5 | Saturn |
-
-Cada código começa a fase escolhida com o equipamento inicial, três vidas e pontuação zero. A progressão segue normalmente a partir dela. Maiúsculas também são aceitas. No teclado, intervalos acima de cinco segundos reiniciam a sequência. No celular, pause para acessar o campo sem movimentar a nave enquanto digita.
-
 43 testes automatizados aprovados. Testados na interface: expedition2 pelo campo, expedition5 pelo teclado e layout do campo em 320 × 568. Sem teste em aparelho físico nesta entrega.
 
 Arquivos do patch: `js/planets.js`, `render.js`, `campaign.js`, `input.js`, `app.js`, novo `cheats.js`; `index.html`, `style.css`, `package.json`, este README; `tests/cheats-bridge.test.js`, `tests/visual.js` e `tests/campaign.html`.
 
 O projeto permanece local, sem publicação. Para usar no celular, mantenha o servidor ligado no Mac e abra `http://IP-DO-MAC:8080` na mesma rede. O IP pode mudar. Para iniciar novamente, abra o Terminal nesta pasta e execute `python3 -m http.server 8080 --bind 0.0.0.0`.
+
+## Trilha 2.2
+
+Cinco composições em `js/score.js`, com forma de 16 compassos e variações de melodia, baixo, harmonia e percussão:
+- Moon: Silent Monolith — 82 BPM, mistério, notas espaçadas e ecos.
+- Earth: Last Exit 3027 — 124 BPM, desespero, ostinato tenso e pulsação urbana.
+- Mars: No Signal — 68 BPM, solidão, melodia rarefeita e notas sustentadas.
+- Neptune: Pressure Front — 148 BPM, adrenalina, bateria e arpejos rápidos.
+- Saturn: Falling Around Forever — 132 BPM, vertigem, movimentos ascendentes e contrarritmo ternário.
+
+A fase seleciona sua composição automaticamente. Pausa interrompe as vozes; retomar continua a sequência sem disparar notas acumuladas. Reiniciar uma fase reinicia sua música. MÚSICA ON/OFF permanece independente dos efeitos. Sons de conclusão e Game Over ficam livres após a trilha parar. Síntese nativa Web Audio, sem downloads de arquivos de música, com limite de 40 vozes e envelopes curtos para evitar estalos.
+
+46 testes automatizados aprovados; cinco composições executadas pelo Web Audio no navegador. Não houve avaliação auditiva em aparelho físico. Ajuste final de volume nos alto-falantes do celular ainda pode ser necessário. `tests/music.html` permite ouvir cada composição isoladamente.
+
+## Controle analógico 2.3
+
+Desenho do D-pad preservado, com movimento proporcional em qualquer direção. Raio de viagem entre 24 e 42 pixels conforme a tela, zona neutra radial de 8% e velocidade diagonal limitada ao mesmo máximo. O indicador central acompanha a direção. Captura do ponteiro mantém o arraste fora do desenho; dedos de disparo/míssil continuam independentes. Teclado preservado.
+
+46 testes aprovados, incluindo intensidade progressiva, diagonais, arraste fora da área, segundo dedo, soltar/cancelar e reset. Arraste com mouse e retorno ao neutro verificados no navegador, sem erros de console. A ergonomia com o polegar ainda precisa ser confirmada no aparelho do jogador.
+
+## Entrega consolidada 2.3.2
+
+Este pacote reúne os controles analógicos com desenho de D-pad, cinco trilhas sintetizadas, cinco fases, passagem sob pontes com oclusão, remoção dos marcadores X/V e dos traços decorativos, e interface sem campo público de códigos. O rodapé do menu mostra v2.3.2. Todos os módulos carregam com a mesma identificação de versão para evitar mistura de arquivos em cache.
+
+Extraia em uma pasta nova e inicie com `python3 -m http.server 8080 --bind 0.0.0.0`. Abra `http://localhost:8080/`. Não abra index.html por duplo clique. Os ZIPs anteriores são históricos e não recebem atualizações automaticamente.
