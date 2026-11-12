@@ -1,4 +1,4 @@
-import { C, random } from "./config.js";
+import { C, random } from "./config.js?v=2.3.2";
 export function cloudPose(e, time) {
   return {
     x: e.x + Math.sin(time * 0.18 + (e.seed || 0) * 6) * 3,

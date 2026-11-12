@@ -1,4 +1,4 @@
-import { C } from "./config.js";
+import { C } from "./config.js?v=2.3.2";
 /** Surface coordinates: lateral arc x, forward arc z, radial altitude h.
  * Every world object shares this rotating spherical coordinate system. */
 export function project(x, z, h = 0, cameraX = 0) {

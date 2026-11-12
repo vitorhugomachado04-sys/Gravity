@@ -1,4 +1,4 @@
-import { MOON } from "./config.js";
+import { MOON } from "./config.js?v=2.3.2";
 // Content-only stage definitions. The same simulation and spherical camera run all worlds.
 export const STAGES = Object.freeze([
   Object.freeze({

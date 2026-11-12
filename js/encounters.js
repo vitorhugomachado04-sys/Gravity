@@ -1,4 +1,4 @@
-import { clamp } from "./config.js";
+import { clamp } from "./config.js?v=2.3.2";
 export const COMBAT_LIMITS = Object.freeze({
   enemies: 18,
   enemyBullets: 48,

@@ -1,7 +1,7 @@
-import { C, random } from "./config.js";
-import { neptuneScenery } from "./atmosphere.js";
-import { createUrbanScenery } from "./urban.js";
-import { project } from "./projection.js";
+import { C, random } from "./config.js?v=2.3.2";
+import { neptuneScenery } from "./atmosphere.js?v=2.3.2";
+import { createUrbanScenery } from "./urban.js?v=2.3.2";
+import { project } from "./projection.js?v=2.3.2";
 
 /** Geodesic distance between two footprints on the sphere (not screen pixels). */
 export function surfaceDistance(a, b) {

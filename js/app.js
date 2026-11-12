@@ -1,10 +1,9 @@
-import { expeditionIndex } from "./cheats.js";
-import { WEAPONS } from "./config.js";
-import { Campaign } from "./campaign.js";
-import { STAGES } from "./stages.js";
-import { Renderer } from "./render.js";
-import { Input } from "./input.js";
-import { AudioSystem } from "./audio.js";
+import { WEAPONS } from "./config.js?v=2.3.2";
+import { Campaign } from "./campaign.js?v=2.3.2";
+import { STAGES } from "./stages.js?v=2.3.2";
+import { Renderer } from "./render.js?v=2.3.2";
+import { Input } from "./input.js?v=2.3.2";
+import { AudioSystem } from "./audio.js?v=2.3.2";
 export function mount({ stages = STAGES, storagePrefix = "gravity" } = {}) {
   const $ = (id) => document.getElementById(id),
     audio = new AudioSystem(),
@@ -116,21 +115,6 @@ export function mount({ stages = STAGES, storagePrefix = "gravity" } = {}) {
     },
     cheat,
   );
-  document.querySelectorAll(".cheat-form").forEach((form) => {
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const field = form.querySelector("input");
-      const index = expeditionIndex(field.value);
-      if (index === null) {
-        form.querySelector("output").textContent =
-          "Use expedition1 até expedition5.";
-        return;
-      }
-      field.value = "";
-      form.querySelector("output").textContent = "";
-      cheat(index);
-    });
-  });
   $("start").onclick = start;
   $("pause").onclick = pause;
   $("resume").onclick = pause;
@@ -167,7 +151,10 @@ export function mount({ stages = STAGES, storagePrefix = "gravity" } = {}) {
       audio.unlock();
       audio[id] = !audio[id];
       save(`gravity.${id}`, audio[id] ? "on" : "off");
-      if (!audio[id]) audio.stop();
+      if (!audio[id]) {
+        if (id === "music") audio.stopMusic();
+        else audio.stop();
+      }
       settings();
     };
   const suspend = () => {
@@ -220,6 +207,7 @@ export function mount({ stages = STAGES, storagePrefix = "gravity" } = {}) {
       }
       audio.update(elapsed);
       if (world.status !== "playing") {
+        audio.stopMusic();
         state = world.status;
         best = Math.max(best, Math.floor(world.score));
         save("gravity.best", String(best));

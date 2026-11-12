@@ -1,2 +1,2 @@
-import { mount } from "./app.js";
+import { mount } from "./app.js?v=2.3.2";
 mount();

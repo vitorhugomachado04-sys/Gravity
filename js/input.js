@@ -1,5 +1,5 @@
-import { CheatSequence } from "./cheats.js";
-import { clamp } from "./config.js";
+import { CheatSequence } from "./cheats.js?v=2.3.2";
+import { clamp } from "./config.js?v=2.3.2";
 export class Input {
   constructor(onPause, onStart, onCheat = () => {}) {
     const cheats = new CheatSequence();
@@ -62,23 +62,38 @@ export class Input {
     const stick = document.querySelector("#stick"),
       knob = document.querySelector("#knob");
     const feedback = () => {
-      stick.setAttribute?.("data-x", String(this.axis.x));
-      stick.setAttribute?.("data-y", String(this.axis.y));
+      const direction = (value) =>
+        Math.abs(value) > 0.12 ? Math.sign(value) : 0;
+      stick.setAttribute?.("data-x", String(direction(this.axis.x)));
+      stick.setAttribute?.("data-y", String(direction(this.axis.y)));
+      knob.style.setProperty?.("--thumb-x", `${this.axis.x * 14}px`);
+      knob.style.setProperty?.("--thumb-y", `${this.axis.y * 14}px`);
     };
     const move = (e) => {
-      const r = stick.getBoundingClientRect();
-      const x = (e.clientX - r.left - r.width / 2) / (r.width / 2),
-        y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
-      // Four digital directions plus diagonals; a small neutral center avoids drift.
-      this.axis = {
-        x: Math.abs(x) > 0.24 ? Math.sign(x) : 0,
-        y: Math.abs(y) > 0.24 ? Math.sign(y) : 0,
-      };
+      if (!this.stickOrigin) return;
+      const dx = (e.clientX - this.stickOrigin.x) / this.stickRadius,
+        dy = (e.clientY - this.stickOrigin.y) / this.stickRadius,
+        length = Math.hypot(dx, dy),
+        deadZone = 0.08;
+      // The touch-down point is neutral. Drag continuously, with a circular
+      // travel limit and a small radial dead zone; no discrete arrow buttons.
+      const strength = Math.min(
+        1,
+        Math.max(0, (length - deadZone) / (1 - deadZone)),
+      );
+      this.axis =
+        length > 0
+          ? { x: (dx / length) * strength, y: (dy / length) * strength }
+          : { x: 0, y: 0 };
       feedback();
     };
     stick.addEventListener("pointerdown", (e) => {
       if (!this.enabled || this.stickId != null) return;
+      e.preventDefault?.();
       this.stickId = e.pointerId;
+      this.stickOrigin = { x: e.clientX, y: e.clientY };
+      const r = stick.getBoundingClientRect();
+      this.stickRadius = clamp(Math.min(r.width, r.height) * 0.38, 24, 42);
       stick.setPointerCapture(e.pointerId);
       move(e);
     });
@@ -88,6 +103,7 @@ export class Input {
     const release = (e) => {
       if (e.pointerId === this.stickId) {
         this.stickId = null;
+        this.stickOrigin = null;
         this.axis = { x: 0, y: 0 };
         knob.style.transform = "";
         feedback();
@@ -139,7 +155,11 @@ export class Input {
     this.axis = { x: 0, y: 0 };
     this.special = false;
     this.stickId = null;
-    document.querySelector("#knob").style.transform = "";
+    this.stickOrigin = null;
+    const knob = document.querySelector("#knob");
+    knob.style.transform = "";
+    knob.style.setProperty?.("--thumb-x", "0px");
+    knob.style.setProperty?.("--thumb-y", "0px");
     const pad = document.querySelector("#stick");
     pad.setAttribute?.("data-x", "0");
     pad.setAttribute?.("data-y", "0");

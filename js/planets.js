@@ -1,7 +1,7 @@
-import { structureParts } from "./urban.js";
-import { RING_RADII, ringSamples } from "./rings.js";
-import { C } from "./config.js";
-import { project } from "./projection.js";
+import { structureParts } from "./urban.js?v=2.3.2";
+import { RING_RADII, ringSamples } from "./rings.js?v=2.3.2";
+import { C } from "./config.js?v=2.3.2";
+import { project } from "./projection.js?v=2.3.2";
 
 const interpolate = (a, b, t) => ({
   x: a.x + (b.x - a.x) * t,
@@ -165,13 +165,6 @@ export function drawPlanetObject(r, e, d, cam) {
         height: part.half.h * 2,
         base: part.h - part.half.h,
       });
-    const safe = type === "bridge" ? 6 : 12,
-      sign = type === "bridge" ? 1 : -1;
-    const q = project(e.x, e.s - d, safe, cam);
-    if (q.visible) {
-      r.line(q.x - 3, q.y - sign * 2, q.x, q.y + sign * 2);
-      r.line(q.x + 3, q.y - sign * 2, q.x, q.y + sign * 2);
-    }
   } else if (type === "tower" || type === "pylon" || type === "lowrise") {
     const height = e.height || 12,
       width = e.size || 4,
@@ -268,10 +261,6 @@ export function drawPlanetObject(r, e, d, cam) {
       taper: 0.65,
     });
   } else return false;
-  if (e.kind === "obstacle" && p.visible) {
-    r.line(p.x - 2, p.y - 9, p.x + 2, p.y - 5);
-    r.line(p.x + 2, p.y - 9, p.x - 2, p.y - 5);
-  }
   return true;
 }
 /** Physical orbital bands; projection and occlusion are shared with the planet. */

@@ -1,5 +1,5 @@
-import { random } from "./config.js";
-import { sweptHit } from "./combat.js";
+import { random } from "./config.js?v=2.3.2";
+import { sweptHit } from "./combat.js?v=2.3.2";
 const mod = (n, d) => ((n % d) + d) % d;
 export const CITY_BLOCK = 64;
 /** World-space street plan, sampled through the inverse spherical projection.

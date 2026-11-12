@@ -1,5 +1,5 @@
-import { World } from "./world.js";
-import { STAGES } from "./stages.js";
+import { World } from "./world.js?v=2.3.2";
+import { STAGES } from "./stages.js?v=2.3.2";
 const LOADOUT = ["score", "kills", "lives", "missiles", "weapon"];
 export class Campaign {
   constructor(audio, stages = STAGES) {
@@ -21,6 +21,7 @@ export class Campaign {
     return true;
   }
   load() {
+    this.audio.setStage?.(this.stages[this.index].id);
     this.world = new World(this.audio, this.stages[this.index]);
     if (this.checkpoint)
       for (const key of LOADOUT) this.world[key] = this.checkpoint[key];

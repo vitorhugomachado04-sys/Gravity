@@ -1,5 +1,5 @@
-import { C } from "./config.js";
-import { projectSpace } from "./projection.js";
+import { C } from "./config.js?v=2.3.2";
+import { projectSpace } from "./projection.js?v=2.3.2";
 export const RING_RADII = Object.freeze([
   C.radius * 1.84,
   C.radius * 1.87,

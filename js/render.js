@@ -1,16 +1,16 @@
-import { fogVertices, cloudOccludes } from "./atmosphere.js";
-import { urbanInk } from "./urban.js";
-import { C, WEAPONS, random, clamp } from "./config.js";
-import { project, surfaceAt, clipLine } from "./projection.js";
-import { craterRim } from "./scenery.js";
+import { fogVertices, cloudOccludes } from "./atmosphere.js?v=2.3.2";
+import { urbanInk } from "./urban.js?v=2.3.2";
+import { C, WEAPONS, random, clamp } from "./config.js?v=2.3.2";
+import { project, surfaceAt, clipLine } from "./projection.js?v=2.3.2";
+import { craterRim } from "./scenery.js?v=2.3.2";
 import {
   drawPlanetObject,
   drawPlanetSky,
   projectedFace,
   drawBridgeOcclusion,
-} from "./planets.js";
-import { ICONS } from "./icons.js";
-import { bitmapText } from "./font.js";
+} from "./planets.js?v=2.3.2";
+import { ICONS } from "./icons.js?v=2.3.2";
+import { bitmapText } from "./font.js?v=2.3.2";
 const sprites = {
   ship: [
     "000010000",
@@ -250,19 +250,10 @@ export class Renderer {
     if (drawPlanetObject(this, e, distance, cameraX)) return;
     if (e.type === "crater") {
       this.crater({ ...e, size: e.size || 5 }, distance, cameraX);
-      if (e.kind === "obstacle" && p.visible) {
-        this.line(p.x - 2, p.y - 8, p.x + 2, p.y - 4);
-        this.line(p.x + 2, p.y - 8, p.x - 2, p.y - 4);
-      }
       return;
     }
     if (!p.visible || p.x < -60 || p.x > 300 || p.y > 335) return;
     const k = p.k;
-    if (e.kind === "obstacle") {
-      const markerY = p.y - (e.type === "crater" ? 7 : 12) * k;
-      this.line(p.x - 2, markerY - 2, p.x + 2, markerY + 2);
-      this.line(p.x + 2, markerY - 2, p.x - 2, markerY + 2);
-    }
     if (e.kind === "enemy") {
       this.rect(
         p.x - Math.max(5, k * 3),
@@ -349,28 +340,6 @@ export class Renderer {
       if (!surfaceAt(s.x, s.y)) this.rect(s.x, s.y, s.s, s.s);
     }
     drawPlanetSky(this, world.stage, world.time, pilot.x);
-    // Continuous latitude markers visibly bend over the lunar surface.
-    for (
-      let row = 0;
-      row <
-      (world.stage.theme === "city"
-        ? 0
-        : world.stage.theme === "saturn"
-          ? 2
-          : 5);
-      row++
-    ) {
-      const z = (row * 23 - (d % 23) + 161) % 161;
-      let prev = null;
-      for (let x = -160; x <= 160; x += 3) {
-        const p = project(x, z, 0, pilot.x);
-        if (p.visible && p.y < 324) {
-          if (prev && (row + Math.floor(x / 9)) % 7 === 0)
-            this.line(prev.x, prev.y, p.x, p.y);
-          prev = p;
-        } else prev = null;
-      }
-    }
     const items = world.scenery
       .filter((e) => e.type !== "fog" && e.s - d > -25 && e.s - d < 360)
       .concat(world.entities)

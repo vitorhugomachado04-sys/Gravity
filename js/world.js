@@ -1,13 +1,13 @@
-import { C, MOON, clamp, random } from "./config.js";
-import { createScenery, footprintsOverlap } from "./scenery.js";
-import { ENEMIES, sweptHit } from "./combat.js";
+import { C, MOON, clamp, random } from "./config.js?v=2.3.2";
+import { createScenery, footprintsOverlap } from "./scenery.js?v=2.3.2";
+import { ENEMIES, sweptHit } from "./combat.js?v=2.3.2";
 import {
   formation,
   waveSpacing,
   hostileVolley,
   COMBAT_LIMITS,
-} from "./encounters.js";
-import { structureHit } from "./urban.js";
+} from "./encounters.js?v=2.3.2";
+import { structureHit } from "./urban.js?v=2.3.2";
 export class World {
   constructor(audio, stage = MOON) {
     this.audio = audio;
